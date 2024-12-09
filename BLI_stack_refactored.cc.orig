@@ -7,9 +7,9 @@
 #include <iostream>
 #include "BLI_stack.h"
 
-/* Abstract Base Class for Stack */
+ /* Abstract Base Class for Stack */
 class AbstractStack {
-  public:
+public:
     virtual ~AbstractStack() = default;
 
     // Push an element onto the stack
@@ -30,15 +30,13 @@ class AbstractStack {
 
 /* Concrete Implementation of Stack */
 class BLI_Stack : public AbstractStack {
-  private:
+private:
     struct StackChunk {
         StackChunk* next;
         char* data;
 
         explicit StackChunk(size_t chunk_size) : next(nullptr), data(new char[chunk_size]) {}
-        ~StackChunk() {
-            delete[] data;
-        }
+        ~StackChunk() { delete[] data; }
     };
 
     StackChunk* chunk_curr;
@@ -51,7 +49,7 @@ class BLI_Stack : public AbstractStack {
     size_t elem_num;
 #endif
 
-  public:
+public:
     BLI_Stack(size_t elem_size, size_t chunk_size);
     ~BLI_Stack() override;
 
@@ -61,7 +59,7 @@ class BLI_Stack : public AbstractStack {
     bool isEmpty() const override;
     size_t count() const override;
 
-  private:
+private:
     void discard();
     StackChunk* allocateChunk();
 };
@@ -69,10 +67,10 @@ class BLI_Stack : public AbstractStack {
 /* Constructor */
 BLI_Stack::BLI_Stack(size_t elem_size, size_t chunk_size)
     : chunk_curr(nullptr),
-      chunk_free(nullptr),
-      chunk_index(0),
-      chunk_elem_max(chunk_size / elem_size),
-      elem_size(elem_size)
+    chunk_free(nullptr),
+    chunk_index(0),
+    chunk_elem_max(chunk_size / elem_size),
+    elem_size(elem_size)
 #ifdef USE_TOTELEM
     , elem_num(0)
 #endif
